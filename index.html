@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Portofolio SMP | BayuSigma</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 20% 30%, #0e0a1f, #020007);
+      color: #f0eef7;
+      scroll-behavior: smooth;
+      line-height: 1.5;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e1a2f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #a855f7;
+      border-radius: 10px;
+    }
+
+    .glass-card {
+      background: rgba(20, 12, 36, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 2rem;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(168, 85, 247, 0.2) inset;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 5, 20, 0.9);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(168, 85, 247, 0.5);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #c084fc, #a855f7);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 8px rgba(168,85,247,0.4);
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #d8b4fe;
+      filter: drop-shadow(0 0 5px #a855f7);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #e9d5ff;
+      transition: 0.2s;
+      font-size: 1rem;
+      text-shadow: 0 1px 2px black;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #c084fc;
+      text-shadow: 0 0 8px #c084fc;
+    }
+
+    .hero {
+      padding: 140px 0 80px 0;
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-text h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #f0eef7, #d8b4fe);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .highlight {
+      color: #c084fc;
+      text-shadow: 0 0 8px #a855f7;
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      color: #cdc4e6;
+      margin-bottom: 32px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(105deg, #7c3aed, #a855f7);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 12px 22px -8px rgba(126, 34, 206, 0.7);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 28px -8px #7e22ce;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #a855f7;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #e9d5ff;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(168,85,247,0.4);
+    }
+
+    .btn-outline:hover {
+      background: rgba(168,85,247,0.2);
+      border-color: #c084fc;
+      box-shadow: 0 0 18px #a855f7;
+    }
+
+    .hero-avatar {
+      flex: 0.8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .rotating-glow {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rotating-glow::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #a855f7, #d946ef, #7c3aed, #c084fc, #a855f7);
+      animation: rotateGlow 3s linear infinite;
+      z-index: 0;
+      filter: blur(12px);
+      opacity: 0.9;
+    }
+
+    .rotating-glow::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #c084fc, #a855f7, #d946ef, #c084fc);
+      animation: rotateGlow 3s linear infinite;
+      z-index: 0;
+      opacity: 0.6;
+      filter: blur(5px);
+    }
+
+    @keyframes rotateGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .avatar-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #0c0719;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 2;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), inset 0 0 0 2px rgba(168,85,247,0.3);
+    }
+
+    .avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .scroll-progress-container {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: #2a2340;
+      z-index: 1001;
+      box-shadow: 0 2px 8px black;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #c084fc, #a855f7, #d946ef);
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 0 12px #c084fc;
+      transition: width 0.08s linear;
+    }
+
+    .skills-section {
+      margin: 30px 0 20px;
+    }
+    .skill-bar-item {
+      margin-bottom: 32px;
+    }
+    .skill-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #e2d6ff;
+    }
+    .skill-track {
+      width: 100%;
+      height: 14px;
+      background: #1e1832;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 6px rgba(0,0,0,0.6), 0 1px 0 rgba(168,85,247,0.3);
+    }
+    .skill-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #a855f7, #d946ef);
+      border-radius: 20px;
+      box-shadow: 0 0 12px #a855f7;
+      transition: width 1s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .skill-percent {
+      color: #d8b4fe;
+      font-weight: 600;
+    }
+
+    .video-section {
+      margin: 60px 0 50px;
+    }
+    .video-wrapper {
+      background: rgba(15, 10, 28, 0.8);
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow: 0 25px 35px -12px black, 0 0 0 1px rgba(168, 85, 247, 0.4);
+      position: relative;
+    }
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      outline: none;
+      pointer-events: none;
+    }
+    .dark-overlay-text {
+      text-align: center;
+      padding: 28px 20px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      margin-top: -4px;
+      border-top: 1px solid #a855f7;
+    }
+    .dark-overlay-text p {
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #f0d9ff;
+      text-shadow: 0 0 6px #a855f7;
+    }
+    .signature {
+      margin-top: 12px;
+      font-size: 1rem;
+      color: #c084fc;
+      font-family: monospace;
+      border-top: 1px dashed #6b21a5;
+      display: inline-block;
+      padding-top: 8px;
+    }
+
+    .about-card {
+      background: rgba(20, 12, 36, 0.75);
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
+      padding: 38px 32px;
+      margin: 40px 0;
+      border: 1px solid rgba(168, 85, 247, 0.6);
+      box-shadow: 0 25px 40px -15px black;
+      transition: transform 0.3s, opacity 0.6s;
+    }
+    .about-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .about-info p {
+      margin: 18px 0;
+      font-size: 1.2rem;
+    }
+    .about-info i {
+      width: 36px;
+      color: #c084fc;
+      text-shadow: 0 0 4px #a855f7;
+    }
+    .stats-mini {
+      display: flex;
+      gap: 32px;
+    }
+    .stats-mini div {
+      text-align: center;
+      background: #130c24;
+      padding: 16px 24px;
+      border-radius: 2rem;
+      box-shadow: 0 12px 20px rgba(0,0,0,0.5), 0 0 0 1px #6b21a5;
+    }
+    .stats-mini i {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #c084fc;
+    }
+    .stats-mini h3 {
+      font-size: 1.8rem;
+    }
+
+    .interactive-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin: 60px 0 40px;
+    }
+    .tool-card {
+      flex: 1;
+      min-width: 280px;
+      background: rgba(12, 6, 25, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      border: 1px solid rgba(168, 85, 247, 0.6);
+      padding: 28px 24px;
+      transition: 0.2s;
+      box-shadow: 0 20px 30px -12px black;
+    }
+    .tool-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #d8b4fe;
+    }
+    .calculator-display {
+      background: #0c0719;
+      border-radius: 2rem;
+      padding: 18px;
+      margin-bottom: 20px;
+      text-align: right;
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: monospace;
+      border: 1px solid #a855f7;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      word-wrap: break-word;
+      overflow-x: auto;
+    }
+    .calc-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .calc-btn {
+      background: #1e1638;
+      border: none;
+      color: #f0eef7;
+      font-size: 1.4rem;
+      font-weight: 600;
+      padding: 14px 0;
+      border-radius: 1.2rem;
+      cursor: pointer;
+      transition: 0.1s;
+      box-shadow: 0 5px 0 #0a0520;
+    }
+    .calc-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #0a0520;
+    }
+    .calc-btn.operator {
+      background: #7c3aed;
+      color: white;
+    }
+    .calc-btn.equal {
+      background: linear-gradient(135deg, #a855f7, #d946ef);
+      grid-column: span 2;
+    }
+    .calc-btn.clear {
+      background: #3b2a5c;
+    }
+
+    .anonymous-box textarea {
+      width: 100%;
+      background: #0e0922;
+      border: 1.5px solid #a855f7;
+      border-radius: 1.5rem;
+      padding: 16px;
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      resize: vertical;
+      margin-bottom: 16px;
+    }
+    .anonymous-box textarea:focus {
+      outline: none;
+      border-color: #d946ef;
+      box-shadow: 0 0 12px #a855f7;
+    }
+    .send-msg-btn {
+      width: 100%;
+      background: linear-gradient(95deg, #7c3aed, #a855f7);
+      border: none;
+      padding: 14px;
+      border-radius: 3rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .send-msg-btn:hover {
+      transform: scale(1.01);
+      box-shadow: 0 0 15px #c084fc;
+    }
+    .message-feedback {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #c084fc;
+      background: #1e1638aa;
+      padding: 10px;
+      border-radius: 2rem;
+    }
+    .public-chat-container {
+      background: #0a0518;
+      border-radius: 1.5rem;
+      padding: 12px;
+      margin-bottom: 16px;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #6b21a5;
+    }
+    .chat-message-item {
+      background: #1f1738;
+      padding: 10px 14px;
+      border-radius: 1rem;
+      margin-bottom: 10px;
+      border-left: 4px solid #c084fc;
+      word-break: break-word;
+    }
+    .chat-message-item small {
+      color: #b77cff;
+      display: block;
+      margin-top: 6px;
+      font-size: 0.7rem;
+    }
+    .chat-stats {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0 8px;
+    }
+    .msg-count-badge {
+      font-size: 0.75rem;
+      background: #2a1a46;
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    /* ChatGPT style */
+    .chatgpt-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-messages {
+      background: #0a0518;
+      border-radius: 1.5rem;
+      padding: 12px;
+      height: 260px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid #6b21a5;
+    }
+    .chat-bubble {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .user-bubble {
+      background: linear-gradient(125deg, #7c3aed, #9b4dff);
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      color: white;
+    }
+    .ai-bubble {
+      background: #1e1832;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      border: 1px solid #a855f7;
+    }
+    .chat-input-area {
+      display: flex;
+      gap: 12px;
+    }
+    .chat-input-area input {
+      flex: 1;
+      background: #0e0922;
+      border: 1px solid #a855f7;
+      border-radius: 2rem;
+      padding: 12px 18px;
+      color: white;
+      font-family: inherit;
+    }
+    .chat-input-area input:focus {
+      outline: none;
+      border-color: #d946ef;
+    }
+    .chat-send {
+      background: #7c3aed;
+      border: none;
+      border-radius: 2rem;
+      padding: 0 22px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+    }
+    .typing-indicator {
+      font-style: italic;
+      color: #c084fc;
+      font-size: 0.8rem;
+      padding-left: 12px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s ease, transform 0.7s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid #3b2a5c;
+      margin-top: 40px;
+      background: #05020c;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+    }
+
+    /* Anime Section */
+    .anime-section-outer {
+      margin: 60px 0 30px;
+    }
+    .anime-genre-chips {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+      scrollbar-width: none;
+    }
+    .anime-genre-chips::-webkit-scrollbar { display: none; }
+    .genre-chip {
+      padding: 8px 18px;
+      background: rgba(20,12,36,0.7);
+      border: 1px solid rgba(168,85,247,0.4);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      color: #e9d5ff;
+      cursor: pointer;
+      transition: 0.2s;
+      flex-shrink: 0;
+    }
+    .genre-chip:hover, .genre-chip.active {
+      background: #7c3aed;
+      border-color: #a855f7;
+      color: white;
+    }
+    .anime-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (min-width: 640px) { .anime-cards-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1024px) { .anime-cards-grid { grid-template-columns: repeat(5, 1fr); } }
+    .anime-card-item {
+      background: rgba(12,6,25,0.8);
+      border-radius: 14px;
+      overflow: hidden;
+      text-decoration: none;
+      color: #f0eef7;
+      border: 1px solid rgba(168,85,247,0.2);
+      transition: 0.2s;
+      display: block;
+    }
+    .anime-card-item:hover {
+      border-color: #a855f7;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(168,85,247,0.3);
+    }
+    .anime-poster {
+      position: relative;
+      padding-top: 140%;
+      background: #000;
+    }
+    .anime-poster img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .anime-year-badge {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: #a855f7;
+      color: white;
+      padding: 2px 8px;
+      font-size: 11px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .anime-info {
+      padding: 10px;
+    }
+    .anime-info h4 {
+      font-size: 13px;
+      margin-bottom: 4px;
+      line-height: 1.3;
+      color: #e9d5ff;
+    }
+    .anime-meta {
+      font-size: 11px;
+      color: #9d78d5;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 72px;
+        left: -100%;
+        background: #0f0a1f;
+        width: 75%;
+        height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
+        transition: 0.3s;
+        gap: 2rem;
+        backdrop-filter: blur(20px);
+        border-right: 2px solid #a855f7;
+        box-shadow: 8px 0 30px black;
+      }
+      .nav-links.active {
+        left: 0;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .hero {
+        padding: 110px 0 60px 0;
+      }
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+      .hero-text p {
+        font-size: 1rem;
+      }
+      .rotating-glow {
+        width: 200px;
+        height: 200px;
+      }
+      .about-grid {
+        flex-direction: column;
+      }
+      .stats-mini {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .interactive-tools {
+        flex-direction: column;
+        gap: 24px;
+        margin: 20px 0 30px;
+      }
+      .tool-card {
+        min-width: unset;
+        width: 100%;
+        padding: 22px 16px;
+      }
+      .tool-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 14px;
+      }
+      #tools h2 {
+        font-size: 1.3rem;
+        line-height: 1.6;
+        margin-bottom: 28px;
+        padding: 0 8px;
+      }
+      .calc-btn {
+        font-size: 1.1rem;
+        padding: 12px 0;
+      }
+      .calculator-display {
+        font-size: 1.6rem;
+        padding: 14px;
+      }
+      .dark-overlay-text p {
+        font-size: 1rem;
+      }
+      .container {
+        padding: 0 16px;
+      }
+      .about-card {
+        padding: 28px 18px;
+      }
+      .about-info p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text h1 {
+        font-size: 1.7rem;
+      }
+      .logo {
+        font-size: 1.4rem;
+      }
+      #tools h2 {
+        font-size: 1.1rem;
+      }
+      .calc-btn {
+        font-size: 1rem;
+        padding: 10px 0;
+        border-radius: 0.8rem;
+      }
+      .calc-buttons {
+        gap: 8px;
+      }
+      .rotating-glow {
+        width: 170px;
+        height: 170px;
+      }
+      .stats-mini div {
+        padding: 12px 16px;
+      }
+      .stats-mini h3 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="scroll-progress-container">
+  <div class="progress-bar" id="scrollProgressBar"></div>
+</div>
+
+<nav>
+  <div class="container nav-container">
+    <div class="logo"> BayuSigma<span class="highlight">SMP</span></div>
+    <div class="menu-toggle" id="mobile-menu">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#beranda" class="nav-link">Beranda</a></li>
+      <li><a href="#keahlian" class="nav-link">Keahlian</a></li>
+      <li><a href="#video-section-id" class="nav-link">Kutipan</a></li>
+      <li><a href="#tentang" class="nav-link">Tentang</a></li>
+      <li><a href="#tools" class="nav-link">Tools & AI</a></li>
+      <li><a href="#anime" class="nav-link">Anime</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <section id="beranda" class="hero">
+    <div class="container hero-content">
+      <div class="hero-text reveal">
+        <h1>Halo, Saya <span class="highlight">BayuSigma</span> <br>SMP Future Developer</h1>
+        <p>Kelas 8F, suka ngoding, AI, dan bercita-cita Cyber Security. Coba kalkulator, kirim pesan rahasia, atau ngobrol sama ChatGPT versi portofolio!</p>
+        <div class="btn-group">
+          <a href="#keahlian" class="btn-primary">Skill & Pelajaran</a>
+          <a href="#tools" class="btn-outline">🤖 ChatGPT + Tools</a>
+        </div>
+      </div>
+      <div class="hero-avatar reveal">
+        <div class="rotating-glow">
+          <div class="avatar-inner">
+            <img src="https://g.top4top.io/p_36421451p1.jpg" alt="BayuSigma" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="keahlian" style="padding: 60px 0 30px 0;">
+    <div class="container">
+      <h2 style="font-size: 2rem; text-align:center; margin-bottom: 40px;"> Pelajaran Favorit</h2>
+      <div class="glass-card" style="padding: 32px 28px;">
+        <div class="skills-section">
+          <div class="skill-bar-item reveal"><div class="skill-info"><span> Matematika, Pkn, Pjok</span><span class="skill-percent" id="percent1">0%</span></div><div class="skill-track"><div class="skill-fill" data-target="70"></div></div></div>
+          <div class="skill-bar-item reveal"><div class="skill-info"><span> Informatika, Senibudaya, Ips</span><span class="skill-percent" id="percent2">0%</span></div><div class="skill-track"><div class="skill-fill" data-target="81"></div></div></div>
+          <div class="skill-bar-item reveal"><div class="skill-info"><span> Ipa, B.inggris, B.Indonesia</span><span class="skill-percent" id="percent3">0%</span></div><div class="skill-track"><div class="skill-fill" data-target="65"></div></div></div>
+          <div class="skill-bar-item reveal"><div class="skill-info"><span> Agama Islam, Bk, Prakarya</span><span class="skill-percent" id="percent4">0%</span></div><div class="skill-track"><div class="skill-fill" data-target="70"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="video-section-id" style="padding: 20px 0 20px;">
+    <div class="container">
+      <div class="video-section reveal">
+        <div class="video-wrapper">
+          <video autoplay loop muted playsinline disablePictureInPicture controlslist="nodownload" style="pointer-events: none;">
+            <source src="https://i.top4top.io/m_3771w2q591.mp4" type="video/mp4">
+            Browser tidak mendukung video.
+          </video>
+        </div>
+        <div class="dark-overlay-text">
+          <p>“Cinta? Penuh Penghianatan, Iri, Luka, Penderitaan, Bahkan, Akan Membuatmu Menyesal Yang Tak Bisa Hilang Untuk Selamanya”</p>
+          <div class="signature">- YiLai Ke Si -</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tentang" style="padding: 20px 0 20px;">
+    <div class="container">
+      <div class="about-card reveal">
+        <h2 style="font-size: 2rem; margin-bottom: 24px; text-align:center;">👨‍🎓 Biodata Student</h2>
+        <div class="about-grid">
+          <div class="about-info">
+            <p><i class="fas fa-user-astronaut"></i> <strong>Nama:</strong> BayuSigma</p>
+            <p><i class="fas fa-school"></i> <strong>Sekolah:</strong> SMP Negeri Unggulan (Kelas VIII-F)</p>
+            <p><i class="fas fa-laptop-code"></i> <strong>Jurusan Impian:</strong> RPL & Cyber Security</p>
+            <p><i class="fas fa-calendar-alt"></i> <strong>Umur:</strong> 15 Tahun</p>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Kota Tangerang, Indonesia</strong></p>
+          </div>
+          <div class="stats-mini">
+            <div><i class="fas fa-code-branch"></i> <h3>5+</h3><p>Project Sederhana</p></div>
+          </div>
+        </div>
+        <p style="margin-top: 28px; font-style: italic; border-left: 4px solid #a855f7; padding-left: 20px;">"Belajar coding, AI, dan keamanan digital setiap hari. Yuk ngobrol sama AI-ku!"</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools" style="padding: 60px 0 80px;">
+    <div class="container">
+      <h2 style="text-align:center; font-size:2rem; margin-bottom: 40px; line-height:1.4;">🧰 Kalkulator | 💬 NGL Publik | 🤖 ChatGPT Mini</h2>
+      <div class="interactive-tools">
+        
+        <!-- Kalkulator -->
+        <div class="tool-card reveal">
+          <h3><i class="fas fa-calculator"></i> Kalkulator</h3>
+          <div class="calculator-display" id="calcDisplay">0</div>
+          <div class="calc-buttons">
+            <button class="calc-btn clear" data-clear>AC</button>
+            <button class="calc-btn operator" data-op="%">%</button>
+            <button class="calc-btn operator" data-op="/">÷</button>
+            <button class="calc-btn operator" data-op="*">×</button>
+            <button class="calc-btn" data-num="7">7</button>
+            <button class="calc-btn" data-num="8">8</button>
+            <button class="calc-btn" data-num="9">9</button>
+            <button class="calc-btn operator" data-op="-">-</button>
+            <button class="calc-btn" data-num="4">4</button>
+            <button class="calc-btn" data-num="5">5</button>
+            <button class="calc-btn" data-num="6">6</button>
+            <button class="calc-btn operator" data-op="+">+</button>
+            <button class="calc-btn" data-num="1">1</button>
+            <button class="calc-btn" data-num="2">2</button>
+            <button class="calc-btn" data-num="3">3</button>
+            <button class="calc-btn equal" data-equal>=</button>
+            <button class="calc-btn" data-num="0">0</button>
+            <button class="calc-btn" data-dot>.</button>
+            <button class="calc-btn operator" data-op="⌫">⌫</button>
+          </div>
+        </div>
+
+        <!-- NGL Public Chat - Semua user saling lihat! -->
+        <div class="tool-card reveal">
+          <h3><i class="fas fa-globe"></i> NGL Publik <span style="font-size:0.7rem; background:#7c3aed; padding:2px 8px; border-radius:20px; margin-left:8px;">PUBLIC</span></h3>
+          <div class="anonymous-box">
+            <div class="public-chat-container" id="publicChatContainer">
+              <div style="text-align:center; color:#aaa; padding:20px;">⏳ Memuat pesan...</div>
+            </div>
+            
+            <textarea id="anonymousMsg" rows="3" placeholder="Tulis pesan anonim... (SEMUA ORANG bisa lihat pesan ini!)"></textarea>
+            <button class="send-msg-btn" id="sendMsgBtn"><i class="fas fa-paper-plane"></i> Kirim Pesan Publik</button>
+            <div id="msgFeedback" class="message-feedback"></div>
+            
+            <div class="chat-stats">
+              <span style="font-size:0.8rem;">🌐 Total Pesan Publik</span>
+              <span class="msg-count-badge" id="msgCount">0</span>
+            </div>
+            
+            <p style="font-size:0.7rem; text-align:center; margin-top:12px;">
+              🌐 <strong>Pesan ini bisa dilihat SEMUA pengunjung website!</strong> Kirim pesan anonim, semua orang bisa baca dan balas secara real-time.
+            </p>
+          </div>
+        </div>
+
+        <!-- ChatGPT Mini -->
+        <div class="tool-card reveal">
+          <h3><i class="fas fa-robot"></i> ChatGPT Mini</h3>
+          <div class="chatgpt-container">
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-bubble ai-bubble">Halo! Aku AI-nya BayuSigma. Tanya tentang coding, sekolah, cybersecurity, atau sekedar ngobrol yuk! 😊</div>
+            </div>
+            <div class="chat-input-area">
+              <input type="text" id="chatInput" placeholder="Tanya apa aja..." autocomplete="off">
+              <button id="chatSendBtn" class="chat-send"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <div id="typingIndicator" class="typing-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="anime" style="padding: 30px 0 70px;">
+    <div class="container anime-section-outer">
+      <h2 style="text-align:center; font-size:2rem; margin-bottom: 10px;">🎌 Anime Station</h2>
+      <p style="text-align:center; color:#cdc4e6; margin-bottom: 24px;">Koleksi anime pilihan — klik untuk nonton di Subnime!</p>
+      
+      <div class="anime-genre-chips">
+        <div class="genre-chip active" onclick="filterAnime('semua', this)">🎯 Semua</div>
+        <div class="genre-chip" onclick="filterAnime('action', this)">⚔️ Action</div>
+        <div class="genre-chip" onclick="filterAnime('isekai', this)">🌀 Isekai</div>
+        <div class="genre-chip" onclick="filterAnime('donghua', this)">🐉 Donghua</div>
+        <div class="genre-chip" onclick="filterAnime('comedy', this)">😂 Comedy</div>
+        <div class="genre-chip" onclick="filterAnime('shounen', this)">🔥 Shounen</div>
+      </div>
+
+      <div class="anime-cards-grid" id="animeGrid">
+        <a href="https://s13.nontonanimeid.boats/anime/spy-x-family-season-3/" class="anime-card-item" data-genre="action comedy">
+          <div class="anime-poster">
+            <img src="https://cdn.myanimelist.net/images/anime/1697/151793l.jpg" alt="Spy x Family">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Spy x Family Season 3</h4>
+            <div class="anime-meta">11 EP • TV</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/boku-no-hero-academia-final-season/" class="anime-card-item" data-genre="action shounen">
+          <div class="anime-poster">
+            <img src="https://cdn.myanimelist.net/images/anime/1959/151055l.jpg" alt="Boku no Hero">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Kingdom Season 6</h4>
+            <div class="anime-meta">Season 3 - 13 Eps</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/toujima-tanzaburou-wa-kamen-rider-ni-naritai/" class="anime-card-item" data-genre="action">
+          <div class="anime-poster">
+            <img src="https://cdn.myanimelist.net/images/anime/1455/152139l.jpg" alt="Kamen Rider">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Toujima Tanzaburou wa Kamen Rider ni Naritai</h4>
+            <div class="anime-meta">1 EP • TV</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/nageki-no-bourei-wa-intai-shitai-part-2/" class="anime-card-item" data-genre="comedy">
+          <div class="anime-poster">
+            <img src="https://cdn.myanimelist.net/images/anime/1651/152063.jpg" alt="Nageki">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Nageki no Bourei wa Intai shitai</h4>
+            <div class="anime-meta">2 EP • TV</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/jujutsu-kaisen-shimetsu-kaiyuu-zenpen/" class="anime-card-item" data-genre="action shounen">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/fmtai6.jpg" alt="Jujutsu Kaisen">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Jujutsu Kaisen: Shimetsu Kaiyuu</h4>
+            <div class="anime-meta">1 EP • Movie</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/youjo-senki/" class="anime-card-item" data-genre="action isekai">
+          <div class="anime-poster">
+            <img src="https://cdn.myanimelist.net/images/anime/1437/115925l.jpg" alt="Youjo Senki">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Youjo Senki II</h4>
+            <div class="anime-meta">1 EP • TV</div>
+          </div>
+        </a>
+        <a href="https://donghuafilm.com/anime/renegade-immortal/" class="anime-card-item" data-genre="donghua isekai">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/l7c5su.jpg" alt="Renegade Immortal">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Renegade Immortal</h4>
+            <div class="anime-meta">Donghua</div>
+          </div>
+        </a>
+        <a href="https://donghuafilm.com/anime/perfect-world/" class="anime-card-item" data-genre="donghua">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/6sept0.jpg" alt="Perfect World">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Perfect World</h4>
+            <div class="anime-meta">Donghua</div>
+          </div>
+        </a>
+        <a href="https://donghuafilm.com/anime/tomb-of-fallen-gods/" class="anime-card-item" data-genre="donghua">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/jg1157.jpg" alt="Tomb of Fallen Gods">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Tomb of Fallen Gods</h4>
+            <div class="anime-meta">Donghua - S1-S3</div>
+          </div>
+        </a>
+        <a href="https://donghuafilm.com/anime/throne-of-seal/" class="anime-card-item" data-genre="donghua">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/d5y2mr.jpg" alt="Throne of Seal">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Throne of Seal</h4>
+            <div class="anime-meta">Donghua</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/naruto-shippuuden/" class="anime-card-item" data-genre="action shounen">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/5521fk.jpg" alt="Naruto">
+            <span class="anime-year-badge">Classic</span>
+          </div>
+          <div class="anime-info">
+            <h4>Naruto Shippuden</h4>
+            <div class="anime-meta">Shounen • Classic</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/one-punch-man/" class="anime-card-item" data-genre="action comedy">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/vfpuho.jpg" alt="One Punch Man">
+            <span class="anime-year-badge">Classic</span>
+          </div>
+          <div class="anime-info">
+            <h4>One Punch Man</h4>
+            <div class="anime-meta">Action • Comedy</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/shingeki-no-kyojin-the-final-season-kanketsu-hen/" class="anime-card-item" data-genre="action">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/27w52b.jpg" alt="AOT">
+            <span class="anime-year-badge">Final</span>
+          </div>
+          <div class="anime-info">
+            <h4>Shingeki no Kyojin: Kanketsu-hen</h4>
+            <div class="anime-meta">Action • Drama</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/one-piece-episode-of-nami-koukaishi-no-namida-to-nakama-no-kizuna/" class="anime-card-item" data-genre="action shounen">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/yrtonn.jpg" alt="One Piece">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>One Piece</h4>
+            <div class="anime-meta">Terbaru</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/dandadan-2nd-season/" class="anime-card-item" data-genre="action comedy">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/s57buy.jpg" alt="Dandadan">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Dandadan Season 2</h4>
+            <div class="anime-meta">Season 2</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/alma-chan-wa-kazoku-ni-naritai/" class="anime-card-item" data-genre="comedy">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/34t8fv.jpg" alt="Alma-chan">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Alma-chan wa Kazoku ni Naritai</h4>
+            <div class="anime-meta">Comedy</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/jigoku-sensei-nube-2025/" class="anime-card-item" data-genre="action">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/3wveha.jpg" alt="Jigoku Sensei">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Jigoku Sensei Nube</h4>
+            <div class="anime-meta">Populer</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/aho-girl/" class="anime-card-item" data-genre="comedy">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/a9k6ro.jpg" alt="Aho Girl">
+            <span class="anime-year-badge">Classic</span>
+          </div>
+          <div class="anime-info">
+            <h4>Aho Girl</h4>
+            <div class="anime-meta">Comedy</div>
+          </div>
+        </a>
+        <a href="https://s13.nontonanimeid.boats/anime/ore-wa-seikan-kokka-no-akutoku-ryoushu/" class="anime-card-item" data-genre="isekai">
+          <div class="anime-poster">
+            <img src="https://files.catbox.moe/5m3al8.jpg" alt="Ore wa Seikan">
+            <span class="anime-year-badge">2025</span>
+          </div>
+          <div class="anime-info">
+            <h4>Ore wa Seikan Kokka no Akutoku Ryoushu!</h4>
+            <div class="anime-meta">Isekai</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p><i class="fas fa-graduation-cap"></i> © 2026 BayuSigma — Pelajar SMP | AI + Tools interaktif | NGL Public Chat Real-time</p>
+  <p style="margin-top: 12px; font-size:0.8rem;">📧 rehanbayupamungkas12@gmail.com | Hobby dan Kreatifitas Telah Berhasil Membangun Web Protofolio Saya</p>
+</footer>
+
+<script>
+  // ========== FIREBASE INITIALIZATION ==========
+  const firebaseConfig = {
+    apiKey: "AIzaSyDXw4TsDQvo4d5gEMURSQuanpRbgTPUCcA",
+    authDomain: "bayu-protofolio-anime.firebaseapp.com",
+    databaseURL: "https://bayu-protofolio-anime-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "bayu-protofolio-anime",
+    storageBucket: "bayu-protofolio-anime.firebasestorage.app",
+    messagingSenderId: "172638019796",
+    appId: "1:172638019796:web:1c8660eb331cf1f6fe1b41",
+    measurementId: "G-P9SMHS8JDN"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  const messagesRef = database.ref('ngl_public_messages');
+  
+  // ========== DOM Elements ==========
+  const publicChatContainer = document.getElementById('publicChatContainer');
+  const msgFeedback = document.getElementById('msgFeedback');
+  const msgCountSpan = document.getElementById('msgCount');
+  const sendBtn = document.getElementById('sendMsgBtn');
+  const msgInput = document.getElementById('anonymousMsg');
+  
+  // ========== Helper Functions ==========
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+  
+  // ========== Render Pesan dari Firebase ==========
+  function renderMessages(snapshot) {
+    const messages = [];
+    snapshot.forEach(childSnapshot => {
+      messages.push({
+        id: childSnapshot.key,
+        ...childSnapshot.val()
+      });
+    });
+    
+    messages.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+    
+    if (messages.length === 0) {
+      if (publicChatContainer) {
+        publicChatContainer.innerHTML = '<div style="color:#aaa; text-align:center; padding:20px;">✨ Belum ada pesan publik. Jadi yang pertama kirim pesan!</div>';
+      }
+      if (msgCountSpan) msgCountSpan.innerText = "0";
+      return;
+    }
+    
+    if (msgCountSpan) msgCountSpan.innerText = messages.length;
+    if (publicChatContainer) {
+      publicChatContainer.innerHTML = messages.map(msg => `
+        <div class="chat-message-item">
+          <i class="fas fa-user-secret"></i> 
+          ${escapeHtml(msg.text)}
+          <small><i class="far fa-clock"></i> ${msg.time || new Date(msg.timestamp).toLocaleString('id-ID')}</small>
+        </div>
+      `).join('');
+      
+      publicChatContainer.scrollTop = publicChatContainer.scrollHeight;
+    }
+  }
+  
+  // ========== Kirim Pesan ke Firebase ==========
+  function sendPublicMessage(text) {
+    if (!text.trim()) {
+      if (msgFeedback) {
+        msgFeedback.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Pesan tidak boleh kosong!';
+        setTimeout(() => { if (msgFeedback) msgFeedback.innerHTML = ''; }, 2000);
+      }
+      return false;
+    }
+    
+    const newMessage = {
+      text: text.trim(),
+      timestamp: Date.now(),
+      time: new Date().toLocaleString('id-ID')
+    };
+    
+    messagesRef.push(newMessage).then(() => {
+      if (msgFeedback) {
+        msgFeedback.innerHTML = '<i class="fas fa-check-circle"></i> Pesan terkirim ke publik! Semua user bisa lihat.';
+        setTimeout(() => { if (msgFeedback) msgFeedback.innerHTML = ''; }, 2000);
+      }
+      if (msgInput) msgInput.value = '';
+    }).catch(error => {
+      console.error('Firebase error:', error);
+      if (msgFeedback) {
+        msgFeedback.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Gagal kirim pesan! Cek koneksi.';
+        setTimeout(() => { if (msgFeedback) msgFeedback.innerHTML = ''; }, 3000);
+      }
+    });
+    
+    return true;
+  }
+  
+  // ========== Firebase Realtime Listener ==========
+  messagesRef.on('value', (snapshot) => {
+    renderMessages(snapshot);
+  }, (error) => {
+    console.error('Firebase listener error:', error);
+    if (publicChatContainer) {
+      publicChatContainer.innerHTML = '<div style="color:#ff8888; text-align:center; padding:20px;">⚠️ Gagal koneksi ke database. Periksa koneksi internet!</div>';
+    }
+  });
+  
+  // ========== Event Listeners ==========
+  if (sendBtn) {
+    sendBtn.addEventListener('click', () => {
+      sendPublicMessage(msgInput?.value || '');
+    });
+  }
+  
+  if (msgInput) {
+    msgInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendPublicMessage(e.target.value);
+      }
+    });
+  }
+  
+  // ========== Mobile Menu ==========
+  const menuToggle = document.getElementById('mobile-menu');
+  const navLinksMenu = document.getElementById('nav-links');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => { navLinksMenu.classList.toggle('active'); });
+  }
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => { if (navLinksMenu) navLinksMenu.classList.remove('active'); });
+  });
+  
+  // ========== Scroll Progress ==========
+  window.addEventListener('scroll', () => {
+    const winScroll = document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (winScroll / height) * 100;
+    const progressBar = document.getElementById('scrollProgressBar');
+    if (progressBar) progressBar.style.width = scrolled + "%";
+  });
+  
+  // ========== Skill Bars Animation ==========
+  function animateSkillBars() {
+    const fills = document.querySelectorAll('.skill-fill');
+    fills.forEach(fill => {
+      const targetValue = parseInt(fill.getAttribute('data-target'));
+      const parentDiv = fill.closest('.skill-bar-item');
+      if (!parentDiv) return;
+      const percentSpan = parentDiv.querySelector('.skill-percent');
+      if (!percentSpan) return;
+      let currentWidth = 0;
+      const step = targetValue / 40;
+      const interval = setInterval(() => {
+        if (currentWidth >= targetValue) {
+          clearInterval(interval);
+          percentSpan.innerText = targetValue + '%';
+          fill.style.width = targetValue + '%';
+        } else {
+          currentWidth += step;
+          if (currentWidth > targetValue) currentWidth = targetValue;
+          fill.style.width = currentWidth + '%';
+          percentSpan.innerText = Math.floor(currentWidth) + '%';
+        }
+      }, 18);
+    });
+  }
+  const skillSection = document.getElementById('keahlian');
+  let skillAnimated = false;
+  if (skillSection) {
+    new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting && !skillAnimated) { skillAnimated = true; animateSkillBars(); } });
+    }, { threshold: 0.4 }).observe(skillSection);
+  }
+  
+  // ========== Reveal Animation ==========
+  const revealElements = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+  }, { threshold: 0.15 });
+  revealElements.forEach(el => revealObserver.observe(el));
+  
+  // ========== Active Nav & Smooth Scroll ==========
+  const sections = document.querySelectorAll('section');
+  const navLinksAll = document.querySelectorAll('.nav-link');
+  function updateActiveNav() {
+    let current = '';
+    const scrollPos = window.scrollY + 150;
+    sections.forEach(section => {
+      const top = section.offsetTop, height = section.clientHeight;
+      if (scrollPos >= top && scrollPos < top + height) current = section.getAttribute('id');
+    });
+    navLinksAll.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').substring(1) === current) link.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', updateActiveNav);
+  window.addEventListener('load', updateActiveNav);
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      if (targetId && document.getElementById(targetId)) {
+        document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+        if (navLinksMenu && navLinksMenu.classList.contains('active')) navLinksMenu.classList.remove('active');
+      }
+    });
+  });
+  
+  // ========== KALKULATOR ==========
+  let currentInput = "0", previousValue = null, lastOperator = null, waitingForOperand = false;
+  const calcDisplay = document.getElementById('calcDisplay');
+  function updateDisplay() { if (calcDisplay) calcDisplay.innerText = currentInput.length > 18 ? parseFloat(currentInput).toExponential(8) : currentInput; }
+  function inputDigit(d) { if (waitingForOperand) { currentInput = d; waitingForOperand = false; } else { currentInput = currentInput === "0" ? d : currentInput + d; } updateDisplay(); }
+  function inputDecimal() { if (waitingForOperand) { currentInput = "0."; waitingForOperand = false; } else if (!currentInput.includes('.')) currentInput += '.'; updateDisplay(); }
+  function clearAll() { currentInput = "0"; previousValue = null; lastOperator = null; waitingForOperand = false; updateDisplay(); }
+  function deleteLast() { if (currentInput.length === 1 || currentInput === "0") currentInput = "0"; else currentInput = currentInput.slice(0, -1); updateDisplay(); }
+  function performOperation(op) {
+    const inputVal = parseFloat(currentInput);
+    if (previousValue !== null && lastOperator !== null && !waitingForOperand) {
+      let result = 0;
+      switch (lastOperator) { case '+': result = previousValue + inputVal; break; case '-': result = previousValue - inputVal; break; case '*': result = previousValue * inputVal; break; case '/': result = previousValue / inputVal; break; case '%': result = previousValue % inputVal; break; }
+      currentInput = String(result); updateDisplay();
+    }
+    previousValue = parseFloat(currentInput);
+    lastOperator = op;
+    waitingForOperand = true;
+  }
+  function calculateEqual() { if (lastOperator !== null && !waitingForOperand) { const inputVal = parseFloat(currentInput); let result = 0; switch (lastOperator) { case '+': result = previousValue + inputVal; break; case '-': result = previousValue - inputVal; break; case '*': result = previousValue * inputVal; break; case '/': result = previousValue / inputVal; break; case '%': result = previousValue % inputVal; break; } currentInput = String(result); updateDisplay(); previousValue = null; lastOperator = null; waitingForOperand = false; } }
+  document.querySelectorAll('.calc-btn[data-num]').forEach(btn => btn.addEventListener('click', () => inputDigit(btn.getAttribute('data-num'))));
+  document.querySelectorAll('.calc-btn[data-op]').forEach(btn => btn.addEventListener('click', () => { const op = btn.getAttribute('data-op'); if (op === '⌫') deleteLast(); else performOperation(op); }));
+  document.querySelector('[data-equal]')?.addEventListener('click', calculateEqual);
+  document.querySelector('[data-clear]')?.addEventListener('click', clearAll);
+  document.querySelector('[data-dot]')?.addEventListener('click', inputDecimal);
+  
+  // ========== ChatGPT Mini ==========
+  const chatMessagesDiv = document.getElementById('chatMessages');
+  const chatInputEl = document.getElementById('chatInput');
+  const chatSendBtn = document.getElementById('chatSendBtn');
+  const typingIndicator = document.getElementById('typingIndicator');
+  
+  function addMessage(text, isUser) {
+    if (!chatMessagesDiv) return;
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble ${isUser ? 'user-bubble' : 'ai-bubble'}`;
+    bubble.innerText = text;
+    chatMessagesDiv.appendChild(bubble);
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+  }
+  
+  function getAIResponse(userMsg) {
+    const lower = userMsg.toLowerCase();
+    if (lower.includes('halo') || lower.includes('hai')) return "Hai juga! Ada yang bisa aku bantu? Tanya soal coding, matematika, atau cybersecurity yuk!";
+    if (lower.includes('coding') || lower.includes('program')) return "Asyik! Aku suka coding juga. BayuSigma sedang belajar HTML, CSS, JavaScript dan Python. Kamu lagi belajar apa?";
+    if (lower.includes('cyber') || lower.includes('keamanan') || lower.includes('hacker')) return "Cybersecurity itu keren! BayuSigma ingin jadi white hat hacker. Mulai dari belajar etika, network security, dan CTF. Semangat!";
+    if (lower.includes('matematika') || lower.includes('logika')) return "Matematika asyik buat logika! Bayu suka banget aljabar dan geometri. Mau tanya rumus?";
+    if (lower.includes('sekolah') || lower.includes('pelajaran')) return "BayuSigma siswa kelas 8F, favorit pelajaran Informatika & Agama. Kamu kelas berapa?";
+    if (lower.includes('terima kasih') || lower.includes('makasih')) return "Sama-sama! Senang bisa ngobrol sama kamu 😊";
+    if (lower.includes('siapa nama') || lower.includes('kamu siapa')) return "Aku AI Mini versi portofolio BayuSigma. Bisa dipakai ngobrol santai seputar sekolah & teknologi!";
+    return "Wah menarik! Aku masih belajar, tapi coba tanya tentang coding, matematika, atau cybersecurity ya. Atau sekedar ngobrol aja 😄";
+  }
+  
+  async function sendChatMessage() {
+    if (!chatInputEl || !chatSendBtn) return;
+    const msg = chatInputEl.value.trim();
+    if (!msg) return;
+    addMessage(msg, true);
+    chatInputEl.value = '';
+    if (typingIndicator) typingIndicator.innerText = 'AI sedang mengetik...';
+    if (chatSendBtn) chatSendBtn.disabled = true;
+    setTimeout(() => {
+      const reply = getAIResponse(msg);
+      addMessage(reply, false);
+      if (typingIndicator) typingIndicator.innerText = '';
+      if (chatSendBtn) chatSendBtn.disabled = false;
+    }, 700);
+  }
+  if (chatSendBtn) chatSendBtn.addEventListener('click', sendChatMessage);
+  if (chatInputEl) chatInputEl.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
+  
+  // ========== Anime Filter ==========
+  function filterAnime(genre, chipEl) {
+    document.querySelectorAll('.genre-chip').forEach(c => c.classList.remove('active'));
+    chipEl.classList.add('active');
+    
+    document.querySelectorAll('.anime-card-item').forEach(card => {
+      const genres = card.getAttribute('data-genre') || '';
+      if (genre === 'semua' || genres.includes(genre)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+  
+  window.filterAnime = filterAnime;
+</script>
+</body>
+</html>
